@@ -1,12 +1,28 @@
 {
-  "name": "clean-architecture",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+    "name": "clean-architecture",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "start": "node dist/main/api/index.js",
+        "build": "rimraf dist && tsc"
+    },
+    "keywords": [
+        "API",
+        "Clean Architecture"
+    ],
+    "author": "",
+    "license": "ISC",
+    "engines": {
+        "node": "16.x"
+    },
+    "dependencies": {
+        "module-alias": "^2.2.2",
+        "rimraf": "^3.0.2"
+    },
+    "devDependencies": {
+        "@types/module-alias": "^2.0.1",
+        "@types/node": "^16.11.9",
+        "typescript": "^4.5.2"
+    }
 }
