@@ -3,14 +3,16 @@ import { AuthenticationException } from '@/domain/exceptions'
 import { FacebookAuthentication } from '@/domain/features'
 import {
   CreateFacebookAccountRepository,
-  LoadUserAccountRepository
+  LoadUserAccountRepository,
+  UpdateFacebookAccountRepository
 } from '../contracts/repositories'
 
 export class FacebookAuthenticationService {
   constructor(
     private readonly facebookApi: LoadFacebookUserApi,
     private readonly accountRepository: LoadUserAccountRepository &
-      CreateFacebookAccountRepository
+      CreateFacebookAccountRepository &
+      UpdateFacebookAccountRepository
   ) {}
 
   async perform(
@@ -19,11 +21,19 @@ export class FacebookAuthenticationService {
     const fbData = await this.facebookApi.loadUser(params)
 
     if (fbData !== undefined) {
-      await this.accountRepository.load({
+      const userAccountData = await this.accountRepository.load({
         email: fbData.email
       })
 
-      await this.accountRepository.createFromFacebook(fbData)
+      if (userAccountData !== undefined) {
+        await this.accountRepository.updateWithFacebook({
+          id: userAccountData.id,
+          name: userAccountData.name ?? fbData.name,
+          facebookId: fbData.facebookId
+        })
+      } else {
+        await this.accountRepository.createFromFacebook(fbData)
+      }
     }
 
     return new AuthenticationException()

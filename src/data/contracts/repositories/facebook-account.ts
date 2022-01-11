@@ -13,3 +13,19 @@ export namespace CreateFacebookAccountRepository {
 
   export type Result = undefined
 }
+
+export interface UpdateFacebookAccountRepository {
+  updateWithFacebook: (
+    params: UpdateFacebookAccountRepository.Params
+  ) => Promise<UpdateFacebookAccountRepository.Result>
+}
+
+export namespace UpdateFacebookAccountRepository {
+  export type Params = {
+    id: string
+    name: string
+    facebookId: string
+  }
+
+  export type Result = undefined
+}
