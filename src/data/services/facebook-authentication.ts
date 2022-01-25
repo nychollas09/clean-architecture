@@ -1,6 +1,7 @@
 import { LoadFacebookUserApi } from '@/data/contracts/apis'
 import { AuthenticationException } from '@/domain/exceptions'
 import { FacebookAuthentication } from '@/domain/features'
+import { FacebookAccount } from '@/domain/models'
 import {
   LoadUserAccountRepository,
   SaveFacebookAccountRepository
@@ -23,12 +24,9 @@ export class FacebookAuthenticationService {
         email: fbData.email
       })
 
-      await this.accountRepository.saveWithFacebook({
-        id: userAccountData?.id,
-        name: userAccountData?.name ?? fbData.name,
-        email: fbData.email,
-        facebookId: fbData.facebookId
-      })
+      const facebookAccount = new FacebookAccount(fbData, userAccountData)
+
+      await this.accountRepository.saveWithFacebook(facebookAccount)
     }
 
     return new AuthenticationException()
