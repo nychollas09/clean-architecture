@@ -1,7 +1,7 @@
 import { LoadFacebookUserApi } from '@/data/contracts/apis'
 import { AuthenticationException } from '@/domain/exceptions'
 import { FacebookAuthentication } from '@/domain/features'
-import { FacebookAccount } from '@/domain/models'
+import { AccessToken, FacebookAccount } from '@/domain/models'
 import { TokenGenerator } from '../contracts/crypto'
 import {
   LoadUserAccountRepository,
@@ -32,7 +32,10 @@ export class FacebookAuthenticationService {
         facebookAccount
       )
 
-      await this.crypto.generateToken({ key: id })
+      await this.crypto.generateToken({
+        key: id,
+        expirationInMs: AccessToken.expirationInMs
+      })
     }
 
     return new AuthenticationException()

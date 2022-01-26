@@ -1,5 +1,8 @@
 export namespace TokenGenerator {
-  export type Params = { key: string }
+  export type Params = {
+    key: string
+    expirationInMs: number
+  }
   export type Result = Promise<void>
 }
 
