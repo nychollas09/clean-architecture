@@ -8,7 +8,7 @@ import {
   SaveFacebookAccountRepository
 } from '../contracts/repositories'
 
-export class FacebookAuthenticationService {
+export class FacebookAuthenticationService implements FacebookAuthentication {
   constructor(
     private readonly facebookApi: LoadFacebookUserApi,
     private readonly accountRepository: LoadUserAccountRepository &
@@ -18,7 +18,7 @@ export class FacebookAuthenticationService {
 
   async perform(
     params: FacebookAuthentication.Params
-  ): Promise<AuthenticationException> {
+  ): Promise<FacebookAuthentication.Result> {
     const fbData = await this.facebookApi.loadUser(params)
 
     if (fbData !== undefined) {
@@ -32,10 +32,12 @@ export class FacebookAuthenticationService {
         facebookAccount
       )
 
-      await this.crypto.generateToken({
+      const token = await this.crypto.generateToken({
         key: id,
         expirationInMs: AccessToken.expirationInMs
       })
+
+      return new AccessToken(token)
     }
 
     return new AuthenticationException()
