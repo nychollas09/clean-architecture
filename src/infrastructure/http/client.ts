@@ -3,7 +3,7 @@ export namespace HttpClient {
     url: string
     queryParams: { [key: string]: string }
   }
-  export type Result = undefined
+  export type Result = any
 }
 
 export interface HttpClient {
