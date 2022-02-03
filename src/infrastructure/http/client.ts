@@ -3,9 +3,8 @@ export namespace HttpClient {
     url: string
     queryParams: { [key: string]: string }
   }
-  export type Result = any
 }
 
 export interface HttpClient {
-  get: (params: HttpClient.Params) => Promise<HttpClient.Result>
+  get: <R>(params: HttpClient.Params) => Promise<R>
 }
