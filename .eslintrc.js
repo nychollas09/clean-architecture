@@ -7,6 +7,7 @@ module.exports = {
     '@typescript-eslint/consistent-type-definitions': 'off',
     '@typescript-eslint/space-before-function-paren': 'off',
     '@typescript-eslint/no-namespace': 'off',
-    '@typescript-eslint/indent': 'off'
+    '@typescript-eslint/indent': 'off',
+    '@typescript-eslint/return-await': 'off'
   }
 }

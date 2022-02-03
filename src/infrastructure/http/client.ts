@@ -6,5 +6,5 @@ export namespace HttpClient {
 }
 
 export interface HttpClient {
-  get: <R>(params: HttpClient.Params) => Promise<R>
+  get: <R = any>(params: HttpClient.Params) => Promise<R>
 }
