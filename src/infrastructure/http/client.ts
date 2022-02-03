@@ -1,7 +1,7 @@
 export namespace HttpClient {
   export type Params = {
     url: string
-    queryParams: { [key: string]: string }
+    queryParams?: { [key: string]: string }
   }
 }
 
