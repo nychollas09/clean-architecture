@@ -1,8 +1,9 @@
 import { PostgresUserAccount } from '@/infrastructure/postgres/entities'
 import { PostgresUserAccountRepository } from '@/infrastructure/postgres/repositories'
-import { makeFakeDb } from '@/infrastructure/postgres/utils'
+
 import { IBackup } from 'pg-mem'
 import { getConnection, getRepository, Repository } from 'typeorm'
+import { makeFakeDb } from '@/tests/infrastructure/postgres/mocks'
 
 describe('PostgresUserAccountRepository', () => {
   describe('load', () => {
