@@ -8,6 +8,7 @@ module.exports = {
     '@typescript-eslint/space-before-function-paren': 'off',
     '@typescript-eslint/no-namespace': 'off',
     '@typescript-eslint/indent': 'off',
-    '@typescript-eslint/return-await': 'off'
+    '@typescript-eslint/return-await': 'off',
+    '@typescript-eslint/brace-style': 'off'
   }
 }

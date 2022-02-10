@@ -1,9 +1,8 @@
-import {
-  PostgresUserAccount,
-  PostgresUserAccountRepository
-} from '@/infrastructure/postgres/repositories'
-import { newDb, IBackup } from 'pg-mem'
-import { getRepository, Repository, getConnection } from 'typeorm'
+import { PostgresUserAccount } from '@/infrastructure/postgres/entities'
+import { PostgresUserAccountRepository } from '@/infrastructure/postgres/repositories'
+import { makeFakeDb } from '@/infrastructure/postgres/utils'
+import { IBackup } from 'pg-mem'
+import { getConnection, getRepository, Repository } from 'typeorm'
 
 describe('PostgresUserAccountRepository', () => {
   describe('load', () => {
@@ -12,12 +11,7 @@ describe('PostgresUserAccountRepository', () => {
     let cleanBackup: IBackup
 
     beforeAll(async () => {
-      const db = newDb()
-      const connection = await db.adapters.createTypeormConnection({
-        type: 'postgres',
-        entities: [PostgresUserAccount]
-      })
-      await connection.synchronize()
+      const db = await makeFakeDb([PostgresUserAccount])
       cleanBackup = db.backup()
       pgUserAccountRepository = getRepository(PostgresUserAccount)
     })
