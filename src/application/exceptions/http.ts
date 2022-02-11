@@ -5,3 +5,10 @@ export class ServerException extends Error {
     this.stack = error?.stack
   }
 }
+
+export class RequiredFieldException extends Error {
+  constructor(fieldName: string) {
+    super(`The field ${fieldName} is required`)
+    this.name = 'RequiredFieldException'
+  }
+}
