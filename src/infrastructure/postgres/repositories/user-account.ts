@@ -6,7 +6,7 @@ import { getRepository, Repository } from 'typeorm'
 import { PostgresUserAccount } from '@/infrastructure/postgres/entities'
 
 export class PostgresUserAccountRepository
-  implements LoadUserAccountRepository
+  implements LoadUserAccountRepository, SaveFacebookAccountRepository
 {
   private readonly pgUserAccountRepository: Repository<PostgresUserAccount>
 
