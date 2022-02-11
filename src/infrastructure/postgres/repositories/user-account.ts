@@ -32,6 +32,15 @@ export class PostgresUserAccountRepository
   async saveWithFacebook(
     params: SaveFacebookAccountRepository.Params
   ): Promise<SaveFacebookAccountRepository.Result> {
+    if (params.id !== undefined) {
+      await this.pgUserAccountRepository.update(
+        { id: Number(params.id) },
+        { name: params.name, facebookId: params.facebookId }
+      )
+
+      return { id: String(params.id) }
+    }
+
     const { id } = await this.pgUserAccountRepository.save({
       email: params.email,
       name: params.name,
