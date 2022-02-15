@@ -7,7 +7,7 @@ import {
   succeedRequest,
   unathorizedRequest
 } from '../helpers'
-import { RequiredStringValidator, ValidationComposite } from '../validation'
+import { ValidationBuilder, ValidationComposite } from '../validation'
 
 type SucceedData = { accessToken: string }
 
@@ -40,9 +40,11 @@ export class FacebookLoginController {
     }
   }
 
-  private validate(httpRequest: HttpRequest): Error | undefined {
-    return new ValidationComposite([
-      new RequiredStringValidator(httpRequest.token, 'token')
-    ]).validate()
+  private validate({ token }: HttpRequest): Error | undefined {
+    const validators = ValidationBuilder.of({ value: token, fildName: 'token' })
+      .required()
+      .build()
+
+    return new ValidationComposite(validators).validate()
   }
 }
