@@ -11,12 +11,16 @@ import {
 
 type SucceedData = { accessToken: string }
 
+type HttpRequest = {
+  token: string | undefined | null
+}
+
 export class FacebookLoginController {
   constructor(
     private readonly facebookAuthentication: FacebookAuthentication
   ) {}
 
-  async handle(httpRequest: any): Promise<HttpResponse> {
+  async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
       if (
         httpRequest.token === '' ||
