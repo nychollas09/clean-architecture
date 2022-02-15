@@ -12,7 +12,7 @@ import {
 type SucceedData = { accessToken: string }
 
 type HttpRequest = {
-  token: string | undefined | null
+  token: string
 }
 
 export class FacebookLoginController {
@@ -22,13 +22,9 @@ export class FacebookLoginController {
 
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
-      if (
-        httpRequest.token === '' ||
-        httpRequest.token === null ||
-        httpRequest.token === undefined
-      ) {
-        return badRequest(new RequiredFieldException('token'))
-      }
+      const error = this.validate(httpRequest)
+
+      if (error !== undefined) return badRequest(error)
 
       const result = await this.facebookAuthentication.perform({
         token: httpRequest.token
@@ -41,6 +37,16 @@ export class FacebookLoginController {
       return unathorizedRequest()
     } catch (error) {
       return serverErrorRequest(error as Error)
+    }
+  }
+
+  private validate(httpRequest: HttpRequest): Error | undefined {
+    if (
+      httpRequest.token === '' ||
+      httpRequest.token === null ||
+      httpRequest.token === undefined
+    ) {
+      return new RequiredFieldException('token')
     }
   }
 }
