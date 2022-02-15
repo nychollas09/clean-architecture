@@ -1,5 +1,4 @@
-import { AuthenticationException } from '@/domain/exceptions'
-import { ServerException } from '../exceptions'
+import { ServerException, UnathorizedException } from '../exceptions'
 
 export type HttpResponse<T = any> = {
   statusCode: number
@@ -11,18 +10,16 @@ export const badRequest = (error: Error): HttpResponse<typeof error> => ({
   data: error
 })
 
-export const unathorizedRequest = (
-  error: AuthenticationException
-): HttpResponse<typeof error> => ({
+export const unathorizedRequest = (): HttpResponse<UnathorizedException> => ({
   statusCode: 401,
-  data: error
+  data: new UnathorizedException()
 })
 
 export const serverErrorRequest = (
-  error: ServerException
+  error: Error
 ): HttpResponse<typeof error> => ({
   statusCode: 500,
-  data: error
+  data: new ServerException(error)
 })
 
 export const succeedRequest = <T>(data: T): HttpResponse<typeof data> => ({

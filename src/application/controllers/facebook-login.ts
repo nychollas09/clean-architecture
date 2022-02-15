@@ -1,7 +1,15 @@
 import { FacebookAuthentication } from '@/domain/features'
 import { AccessToken } from '@/domain/models'
-import { RequiredFieldException, ServerException } from '../exceptions'
-import { badRequest, HttpResponse } from '../helpers'
+import { RequiredFieldException } from '../exceptions'
+import {
+  badRequest,
+  HttpResponse,
+  serverErrorRequest,
+  succeedRequest,
+  unathorizedRequest
+} from '../helpers'
+
+type SucceedData = { accessToken: string }
 
 export class FacebookLoginController {
   constructor(
@@ -23,15 +31,12 @@ export class FacebookLoginController {
       })
 
       if (result instanceof AccessToken) {
-        return { statusCode: 200, data: { accessToken: result.value } }
+        return succeedRequest<SucceedData>({ accessToken: result.value })
       }
 
-      return { statusCode: 401, data: result }
+      return unathorizedRequest()
     } catch (error) {
-      return {
-        statusCode: 500,
-        data: new ServerException(error as Error)
-      }
+      return serverErrorRequest(error as Error)
     }
   }
 }
