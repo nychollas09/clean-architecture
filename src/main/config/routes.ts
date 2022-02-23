@@ -13,5 +13,5 @@ export const setupRoutes = (app: Express): void => {
       ;(await import(`${routesDir}/${fileName}`)).default(router)
     })
 
-  app.use(router)
+  app.use('/api', router)
 }

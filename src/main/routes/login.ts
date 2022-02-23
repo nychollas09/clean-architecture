@@ -4,7 +4,7 @@ import { makeFacebookLoginController } from '../factories/controllers'
 
 export default (router: Router): void => {
   router.post(
-    '/api/login/facebook',
+    '/login/facebook',
     adaptExpressRoute(makeFacebookLoginController())
   )
 }
